@@ -9,7 +9,20 @@ import {
   import { Input } from "@/components/ui/input"
   import { Button } from "@/components/ui/button";
   import { useState } from'react';
-  import { getResistenza } from '../lib/answers.js';
+//   import { getResistenza } from '../lib/answers.js';
+
+  export function getResistenza(number: number): number {
+    // convert number to string
+    let fNum = number.toString();
+    // initialize times
+    let times = 0
+    // looping to find the number of times needed to multiply the digits to get a single digit
+    while (fNum.length > 1) {
+        times++;
+        fNum = fNum.split("").map(digit => Number(digit)).reduce((result, curr) => result * curr, 1).toString(); 
+    }
+    return times;
+}
 
 export default function FormOneA() {
     const [number, setNumber] = useState(0);

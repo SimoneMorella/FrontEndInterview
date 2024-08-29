@@ -8,7 +8,34 @@ import {
   } from "@/components/ui/card";
   import { Button } from "@/components/ui/button";
   import { useState } from'react';
-  import { findResistanceSeven } from '../lib/answers.js';
+  import { getResistenza } from './FormOneA';
+//   import { findResistanceSeven } from '../lib/answers.js';
+
+
+function findResistanceSeven() {
+    let length = 2; 
+    while (length <= 20) { // to prevent long loops
+        const combinations = generateComb(length);
+        for (const combination of combinations) {
+            if (getResistenza((combination as unknown as number)) === 7) {
+                return Number(combination.join(""));
+            }
+        }
+        length++;
+    }
+    return null; // if no number is found
+}
+
+function generateComb(length: number): number[][] {
+    const neededDigit = [7, 8, 9]; // Most probable digits to have a higher resistance
+    if (length === 1) return neededDigit.map(digit => [digit]); // Base case of recursion
+    const result: number[][] = [];
+    neededDigit.forEach(digit => {  // Recursively generate combinations for the rest of the digits
+        const restComb = generateComb(length - 1);
+        restComb.forEach(comb => result.push([digit + ( (comb as unknown) as number)]));
+    });
+    return result;
+}
 
 export default function FormOneA() {
     const [isDone, setIsDone] = useState(false);
@@ -18,7 +45,7 @@ export default function FormOneA() {
     function handleStartResistance() {
         setIsDoing(false);
         setIsDone(false);
-        setResult(findResistanceSeven());
+        setResult(findResistanceSeven() as number);
         setTimeout(() => {
             setIsDoing(true);
         }, 300);

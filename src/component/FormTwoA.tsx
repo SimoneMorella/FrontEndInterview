@@ -10,7 +10,18 @@ import {
   import { Label } from "@/components/ui/label"
   import { Button } from "@/components/ui/button";
   import { useState } from'react';
-  import { getMaxFrequente } from '../lib/answers.js';
+//   import { getMaxFrequente } from '../lib/answers.js';
+
+export function getMaxFrequente(arr: number[]): number {
+    // self explanatory code: just created an object where keys are numbers and values are their frequencies
+    const countObj = arr.reduce((obj: Record<number, number>, num) => {
+        obj[num] = (obj[num] || 0) + 1;
+        return obj;
+    }, {});
+    // found the most frequent number by sorting the keys in descending order and picking the first one (highest frequency) 
+    const mostFrequent = Object.keys(countObj).sort((a, b) => countObj[+b] - countObj[+a])[0];
+    return Number(mostFrequent);
+}
 
 export default function FormOneA() {
     const [array, setArray] = useState([55, 42, 88, 42, 88, 42]);

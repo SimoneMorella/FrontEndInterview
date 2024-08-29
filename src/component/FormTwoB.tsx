@@ -10,14 +10,24 @@ import {
   import { Label } from "@/components/ui/label"
   import { Button } from "@/components/ui/button";
   import { useState } from'react';
-  import { getMaxFrequenti } from '../lib/answers.js';
+//   import { getMaxFrequenti } from '../lib/answers.js';
+
+export function getMaxFrequenti(arr: number[], k: number): number[] {
+    // same logic as before but now we are returning an array of k most frequent numbers
+        const countObj = arr.reduce((obj: Record<number, number>, num) => {
+            obj[num] = (obj[num] || 0) + 1;
+            return obj;
+        }, {});
+        const mostFrequentsArr: number[] = Object.keys(countObj).sort((a, b) => countObj[+b] - countObj[+a]).slice(0, k).map(key => +key); // Convert keys to numbers;
+        return mostFrequentsArr;
+}
 
 export default function FormOneA() {
     const [array, setArray] = useState([1, 52, 52, 52, 1, 56, 1, 54, 54, 1, 54]);
     const [k, setK] = useState(1);
     const [isDone, setIsDone] = useState(false);
     const [isDoing, setIsDoing] = useState(false);
-    const [result, setResult] = useState([]);
+    const [result, setResult] = useState<number[]>();
 
     function handleStartResistance() {
         setIsDoing(false);
