@@ -1,15 +1,15 @@
 
 
 const codeString = `
-generateComb(length) {
-    const neededDigit = [7, 8, 9] // most probable digits to have a higher resistance
-    if (length === 1) return neededDigit; //base of recursion
-    let result = [];
-    neededDigit.forEach(digit => {  // recursively generate combinations for rest of the digits
-        const restComb = generateComb(length - 1);
-        restComb.forEach(comb => result.push([digit + comb]))
-    });
-    return result;
+function getMaxFrequente(arr: number[]): number {
+    // self explanatory code: just created an object where keys are numbers and values are their frequencies
+    const countObj = arr.reduce((obj: Record<number, number>, num) => {
+        obj[num] = (obj[num] || 0) + 1;
+        return obj;
+    }, {});
+    // found the most frequent number by sorting the keys in descending order and picking the first one (highest frequency) 
+    const mostFrequent = Object.keys(countObj).sort((a, b) => countObj[+b] - countObj[+a])[0];
+    return Number(mostFrequent);
 }
 `;
 
